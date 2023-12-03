@@ -1,26 +1,19 @@
-fn find_digits(line: &str) -> (u32, u32) {
-    let mut first_digit = 0;
-    let mut last_digit = 0;
-    for char in line.chars() {
-        if !char.is_ascii_digit() { continue; };
-        let digit = char.to_digit(10).unwrap();
+use std::io;
 
-        last_digit = digit;
-
-        if first_digit == 0 { first_digit = digit; }
-    }
-    (first_digit, last_digit)
-}
+mod part2;
+mod part1;
 
 fn main() {
-    let calibration_values = include_str!("../assets/input.txt");
-    let mut calibration_sum = 0;
+    println!("Which part would you like to run?");
+    let mut choice = String::new();
 
-    for line in calibration_values.lines() {
-        let digits = find_digits(line);
-        let number = (digits.0.to_string() + &*digits.1.to_string()).parse::<u32>().unwrap();
-        calibration_sum += number;
+    io::stdin()
+        .read_line(&mut choice)
+        .expect("Something has gone catastrophically wrong");
+
+    match choice.trim() {
+        "1" => part1::main(),
+        "2" => part2::main(),
+        _ => println!("Enter 1 or 2"),
     }
-
-    println!("{}", &calibration_sum);
 }
